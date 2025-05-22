@@ -43,9 +43,12 @@ app.use((req, res, next) => {
 
 // Middleware CORS pour autoriser les requêtes depuis le frontend
 app.use(cors({
-    origin: '*', // Autoriser toutes les origines
+    origin: process.env.NODE_ENV === 'production' 
+        ? ['https://votre-app-name.onrender.com', 'http://localhost:3000']
+        : '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }));
 
 // Middleware pour analyser les données JSON
@@ -117,13 +120,8 @@ app.use(async (req, res, next) => {
 });
 
 // Chemin absolu vers le dossier public
-if (process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname, '../public')));
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../public',
-        'index.html'));
-    });
-}
+const publicPath = path.join(__dirname, '../public');
+console.log('Chemin du dossier public:', publicPath);
 
 // Servir les fichiers statiques du dossier public
 app.use(express.static(publicPath));
