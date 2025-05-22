@@ -1,0 +1,1095 @@
+/* Chat Container */
+.chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 80px;
+    width: 350px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    transform: translateY(440px);
+    opacity: 0.95;
+}
+
+.chat-container.minimized {
+    transform: translateY(440px);
+}
+
+.chat-container.expanded {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.chat-container.maximized {
+    width: 450px;
+    height: 650px;
+    right: 60px;
+    bottom: 20px;
+    transform: translateY(0);
+    opacity: 1;
+    box-shadow: 0 0px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background-image: linear-gradient(135deg, #0d6efd, #0b5ed7);
+    color: white;
+    position: relative;
+    z-index: 10;
+}
+
+.chat-header:hover {
+    background-image: linear-gradient(135deg, #0b5ed7, #0953c7);
+}
+
+.chat-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-header-title h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chat-header-actions {
+    display: flex;
+    gap: 8px;
+    padding: 5px;
+}
+
+.chat-header-button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    padding: 8px;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+    outline: none;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    z-index: 20;
+}
+
+.chat-header-button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chat-header-button:active {
+    transform: scale(0.95);
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.chat-header-button i {
+    pointer-events: none; /* Empêche les clics sur l'icône de perturber le clic sur le bouton */
+    font-size: 18px;
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.status-online {
+    background-color: #28a745; /* Vert plus vif */
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.6); /* Ajoute un halo plus visible */
+    animation: pulse 2s infinite; /* Effet de pulsation pour les utilisateurs en ligne */
+}
+
+.status-offline {
+    background-color: #adb5bd;
+}
+
+/* Amélioration de l'apparence des icônes de statut dans les listes */
+.conversation-name .status-icon,
+.user-name .status-icon {
+    margin-left: 6px;
+    display: inline-block;
+    font-size: 12px !important;
+    animation: pulse 2s infinite; /* Effet de pulsation pour les utilisateurs en ligne */
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
+
+/* Chat Conversations List */
+.chat-conversations {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Styles pour le champ de recherche */
+.search-container {
+    margin-bottom: 10px;
+}
+
+.search-container .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.search-container .input-group-text {
+    background-color: transparent;
+    border: none;
+    color: #6c757d;
+    padding: 8px 12px;
+}
+
+.search-container .form-control {
+    border: none;
+    padding: 8px 12px 8px 5px;
+    font-size: 14px;
+    background-color: transparent;
+    flex: 1;
+}
+
+.search-container .form-control:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.conversation-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.conversation-item:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.conversation-item.active {
+    background-color: rgba(13, 110, 253, 0.15);
+    border-left: 3px solid #0d6efd;
+}
+
+.conversation-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #6c757d;
+    position: relative;
+}
+
+.conversation-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.conversation-details {
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Noms utilisateurs toujours en noir, même en mode sombre */
+.conversation-name {
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000000 !important; /* Noir forcé avec !important */
+}
+
+.conversation-last-message {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-time {
+    font-size: 11px;
+    color: #adb5bd;
+    margin-top: 2px;
+}
+
+.conversation-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+}
+
+/* Styles pour les résultats de recherche */
+.search-result-item {
+    border-left: 3px solid #0d6efd;
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.search-result-badge {
+    color: #0d6efd;
+    margin-left: auto;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-result-badge i {
+    transition: transform 0.2s ease;
+}
+
+.search-result-item:hover .search-result-badge i {
+    transform: scale(1.2);
+}
+
+/* Chat Messages */
+.chat-messages {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.chat-messages.active {
+    display: flex;
+}
+
+.messages-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.messages-header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Noms utilisateurs toujours en noir, même en mode sombre */
+.messages-header-name {
+    font-weight: 600;
+    margin: 0;
+    color: #000000 !important; /* Noir forcé avec !important */
+}
+
+.messages-header-status {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+}
+
+.messages-header-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.messages-header-button {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 16px;
+    padding: 5px;
+    cursor: pointer;
+    transition: color 0.2s;
+    outline: none;
+}
+
+.messages-header-button:hover {
+    color: #495057;
+}
+
+.messages-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+    margin-bottom: 15px;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.sent {
+    align-self: flex-end;
+}
+
+.message.received {
+    align-self: flex-start;
+}
+
+.message-content {
+    padding: 10px 15px;
+    border-radius: 18px;
+    font-size: 14px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.message.sent .message-content {
+    background-color: #0d6efd;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.received .message-content {
+    background-color: #e9ecef;
+    color: #212529;
+    border-bottom-left-radius: 4px;
+}
+
+.message-time {
+    font-size: 10px;
+    color: #6c757d;
+    align-self: flex-end;
+    margin-top: 2px;
+}
+
+.message.sent .message-time {
+    color: #adb5bd;
+}
+
+.message-status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 11px;
+    color: #adb5bd;
+    margin-top: 2px;
+}
+
+.message-status i {
+    font-size: 12px;
+    margin-left: 3px;
+}
+
+/* Message Input */
+.message-input-container {
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.message-input {
+    flex: 1;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.message-input:focus {
+    border-color: #0d6efd;
+}
+
+.message-input-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.message-input-button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+    border: none;
+    font-size: 16px;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.message-input-button:hover {
+    background-color: #dee2e6;
+    color: #495057;
+}
+
+.message-input-button.send {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.message-input-button.send:hover {
+    background-color: #0b5ed7;
+}
+
+/* Chat Notifications */
+.chat-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 300px;
+    z-index: 1050;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.chat-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+.notification-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-name {
+    font-weight: 600;
+    margin: 0 0 3px 0;
+}
+
+.notification-message {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notification-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #adb5bd;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.notification-close:hover {
+    color: #6c757d;
+}
+
+/* Chat Placeholder */
+.chat-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    text-align: center;
+}
+
+.chat-placeholder-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    color: #adb5bd;
+}
+
+.chat-placeholder-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.chat-placeholder-text {
+    font-size: 14px;
+    max-width: 250px;
+    line-height: 1.5;
+}
+
+/* Loading Indicator */
+.chat-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: rgba(248, 249, 250, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 11;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(13, 110, 253, 0.2);
+    border-radius: 50%;
+    border-top-color: #0d6efd;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border-radius: 16px;
+    align-self: flex-start;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #6c757d;
+    animation: fadeIn 0.3s ease;
+}
+
+.typing-dots {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #6c757d;
+    animation: typingAnimation 1.5s infinite ease;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingAnimation {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* New Chat Button */
+.new-chat-button {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    right: auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #0d6efd;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.new-chat-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(13, 110, 253, 0.5);
+}
+
+.new-chat-button.has-notifications::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #dc3545;
+    border: 2px solid white;
+}
+
+/* Chat Floating Badge */
+.chat-floating-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.4);
+    animation: bounceIn 0.5s;
+}
+
+@keyframes bounceIn {
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        transform: scale3d(0.9, 0.9, 0.9);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(0.97, 0.97, 0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* Admin Separator */
+.admin-separator {
+    display: flex;
+    align-items: center;
+    margin: 15px 0 10px;
+    position: relative;
+    padding: 0 10px;
+}
+
+.admin-separator::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #dee2e6;
+    margin-right: 10px;
+}
+
+.admin-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #dee2e6;
+    margin-left: 10px;
+}
+
+.admin-separator span {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+/* Admin Item */
+.admin-item {
+    border-left: 3px solid #0d6efd;
+    background-color: rgba(13, 110, 253, 0.05);
+    transition: background-color 0.2s;
+}
+
+.admin-item:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.admin-avatar {
+    background-color: #d6e4ff; /* Fond bleu clair pour les avatars des admins */
+    color: #0d6efd;
+}
+
+/* Badge admin - texte noir sur fond bleu clair */
+.admin-badge {
+    font-size: 10px;
+    background-color: #9ec5fe; /* Bleu clair */
+    color: #000000; /* Noir */
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-weight: bold; /* Gras pour plus de lisibilité */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Nom d'administrateur - texte noir */
+.admin-item .conversation-name {
+    color: #000000 !important; /* Important pour outrepasser d'autres styles */
+    font-weight: 600;
+}
+
+/* En mode sombre, conserver un bon contraste */
+@media (prefers-color-scheme: dark) {
+    .admin-badge {
+        background-color: #0d6efd; /* Bleu plus foncé pour le mode sombre */
+        color: #ffffff; /* Blanc pour le mode sombre */
+    }
+    
+    .admin-item .conversation-name {
+        color: #ffffff !important; /* Blanc pour le mode sombre */
+    }
+}
+
+/* Support du mode sombre */
+@media (prefers-color-scheme: dark) {
+    .chat-container {
+        background-color: #212529;
+        box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    .chat-conversations {
+        background-color: #343a40;
+    }
+    
+    .messages-list {
+        background-color: #343a40;
+    }
+    
+    /* Désactivé pour garder les noms en noir même en mode sombre */
+    /*.conversation-name {
+        color: #f8f9fa !important;
+    }
+    
+    .messages-header-name {
+        color: #f8f9fa !important;
+    }*/
+    
+    .conversation-last-message {
+        color: #adb5bd;
+    }
+    
+    .message.received .message-content {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+    
+    .message-time {
+        color: #adb5bd;
+    }
+    
+    .chat-placeholder {
+        background-color: #343a40;
+        color: #adb5bd;
+    }
+    
+    .chat-placeholder-icon {
+        color: #6c757d;
+    }
+    
+    .chat-loading {
+        background-color: rgba(52, 58, 64, 0.7);
+    }
+    
+    .admin-separator::before,
+    .admin-separator::after {
+        background-color: #495057;
+    }
+    
+    .admin-separator span {
+        color: #adb5bd;
+    }
+    
+    .admin-item {
+        background-color: rgba(13, 110, 253, 0.15);
+    }
+    
+    .admin-item:hover {
+        background-color: rgba(13, 110, 253, 0.25);
+    }
+    
+    .admin-avatar {
+        background-color: #1e3a8a; /* Bleu foncé pour le mode sombre */
+        color: #99c0ff;
+    }
+    
+    .search-container .input-group {
+        background-color: #495057;
+        border-color: #6c757d;
+    }
+    
+    .search-container .form-control {
+        color: #f8f9fa;
+        background-color: transparent;
+    }
+    
+    .search-container .input-group-text {
+        color: #adb5bd;
+    }
+    
+    .message-input {
+        background-color: #495057;
+        color: #f8f9fa;
+        border-color: #6c757d;
+    }
+    
+    .message-input::placeholder {
+        color: #adb5bd;
+    }
+    
+    .conversation-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Pour les anciennes versions de Safari et autres navigateurs */
+.dark-mode .chat-container {
+    background-color: #212529;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .chat-conversations,
+.dark-mode .messages-list {
+    background-color: #343a40;
+}
+
+/* Désactivé pour garder les noms en noir */
+/*.dark-mode .conversation-name {
+    color: #f8f9fa;
+}*/
+
+.dark-mode .conversation-last-message {
+    color: #adb5bd;
+}
+
+/* Force les noms à rester noirs même dans les éléments actifs */
+.conversation-item.active .conversation-name {
+    color: #000000 !important;
+}
+
+.messages-header-name {
+    color: #000000 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    /* Désactivé pour garder les noms en noir */
+    /*.conversation-item.active .conversation-name {
+        color: #f8f9fa !important;
+    }
+    .messages-header-name {
+        color: #f8f9fa !important;
+    }*/
+    
+    /* Garder les noms des administrateurs et utilisateurs en noir */
+    .admin-item .conversation-name,
+    .user-name,
+    .notification-name {
+        color: #000000 !important;
+    }
+}
+
+/* Fix spécifique pour les noms dans les bulles de message */
+.message-bubble .user-name,
+.message-content-wrap .user-name {
+    color: #212529 !important;
+}
+
+/* Correction spécifique pour le problème montré dans l'image */
+.message-content .conversation-name,
+.message-content-wrap .conversation-name,
+#messagesContainer .conversation-name {
+    color: #212529 !important;
+}
+
+/* Bulle de messages claire en mode sombre */
+@media (prefers-color-scheme: dark) {
+    /* Forcer le texte en noir pour les messages sur fond clair */
+    .message.received .message-content,
+    .messages-list .message-content {
+        color: #212529 !important;
+    }
+    
+    /* Noms des utilisateurs dans les bulles de messages */
+    .messages-list .user-name,
+    .messages-list .conversation-name {
+        color: #212529 !important;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .chat-container {
+        width: 100%;
+        right: 0;
+        border-radius: 0;
+    }
+    
+    .chat-container.maximized {
+        width: 100%;
+        height: 100vh;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+.dark-mode .message.received .message-content {
+    background-color: #495057;
+    color: #f8f9fa;
+}
+
+.dark-mode .message-time {
+    color: #adb5bd;
+}
+
+.dark-mode .chat-placeholder {
+    background-color: #343a40;
+    color: #adb5bd;
+}
+
+.dark-mode .chat-placeholder-icon {
+    color: #6c757d;
+}
+
+.dark-mode .admin-item {
+    background-color: rgba(13, 110, 253, 0.15);
+}
+
+.dark-mode .admin-avatar {
+    background-color: #1e3a8a;
+    color: #99c0ff;
+}
+
+/* Force les noms à rester noirs même dans les éléments actifs */
+.conversation-item.active .conversation-name {
+    color: #000000 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    /* Règle pour les messages avec fond clair - texte en noir pour meilleure lisibilité */
+    .message .conversation-name,
+    .message .user-name,
+    .message-content .user-name {
+        color: #000000 !important;
+    }
+}
+
+/* Règle globale pour tous les noms d'utilisateurs - toujours en noir */
+.conversation-name,
+.messages-header-name,
+.notification-name,
+.user-name,
+.admin-item .conversation-name {
+    color: #000000 !important;
+    font-weight: 600;
+} 

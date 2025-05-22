@@ -1,0 +1,1442 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Variables globales */
+:root {
+    --accent-color: #8672FF;
+    --base-color: white;
+    --base-variant: #f8f9fa;
+    --text-color: #2E2B41;
+    --secondary-text: #495057;
+    --input-color: #F3F0FF;
+    --primary-color: #0d6efd;
+    --primary-dark: #0b5ed7;
+    --admin-color: #198754;
+    --logout-color: #dc3545;
+    --card-bg: white;
+    --card-border: rgba(255, 255, 255, 0.8);
+    --card-shadow: rgba(0, 0, 0, 0.15);
+    --card-shadow-hover: rgba(0, 0, 0, 0.2);
+    --header-bg: white;
+    --particles-color: #4361ee;
+    --particles-opacity: 0.05;
+}
+
+/* Variables pour le thème sombre */
+.darkmode {
+    --base-color: #070b1d;
+    --base-variant: #101425;
+    --text-color: #ffffff;
+    --secondary-text: #a4a5b8;
+    --input-color: #1e2235;
+    --card-bg: #121830;
+    --card-border: rgba(58, 67, 93, 0.3);
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: rgba(0, 0, 0, 0.4);
+    --header-bg: #0c1024;
+    --particles-color: #3a435d;
+    --particles-opacity: 0.1;
+}
+
+/* Styles de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Poppins, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+/* Styles de la barre de navigation */
+.navbar {
+    box-shadow: 0 2px 10px var(--card-shadow);
+    padding: 0.8rem 1rem;
+    background-color: var(--header-bg) !important;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    margin: 0 5px;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Style pour le lien Admin Panel */
+#admin-link {
+    background-color: var(--admin-color);
+    color: white;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    margin-left: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#admin-link:hover {
+    background-color: #146c43;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+#admin-link .bi {
+    margin-right: 5px;
+}
+
+/* Style pour le bouton de déconnexion */
+#logout-btn {
+    background-color: var(--logout-color);
+    color: white;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    margin-left: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#logout-btn:hover {
+    background-color: #bb2d3b;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+#logout-btn .bi {
+    margin-right: 5px;
+}
+
+/* Style pour le lien de connexion */
+#login-link {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#login-link:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+#login-link .bi {
+    margin-right: 5px;
+}
+
+/* Styles spécifiques pour les pages de login/signup */
+body.auth-page {
+    min-height: 100vh;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: right;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-wrapper {
+    background-color: var(--base-color);
+    height: 100vh;
+    width: max(40%, 600px);
+    padding: 10px;
+    border-radius: 0 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-wrapper h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.auth-form {
+    width: min(400px, 100%);
+    margin-top: 20px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-form > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.auth-form label {
+    flex-shrink: 0;
+    height: 50px;
+    width: 50px;
+    background-color: var(--accent-color);
+    fill: var(--base-color);
+    color: var(--base-color);
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.auth-form input {
+    box-sizing: border-box;
+    flex-grow: 1;
+    min-width: 0;
+    height: 50px;
+    padding: 1em;
+    font: inherit;
+    border-radius: 0 10px 10px 0;
+    border: 2px solid var(--input-color);
+    border-left: none;
+    background-color: var(--input-color);
+    transition: 150ms ease;
+}
+
+.auth-form input:hover {
+    border-color: var(--accent-color);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--text-color);
+}
+
+.auth-form div:has(input:focus) > label {
+    background-color: var(--text-color);
+}
+
+.auth-form input::placeholder {
+    color: var(--text-color);
+}
+
+.auth-form button {
+    margin-top: 10px;
+    border: none;
+    border-radius: 1000px;
+    padding: .85em 4em;
+    background-color: var(--accent-color);
+    color: var(--base-color);
+    font: inherit;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+.auth-form button:hover {
+    background-color: var(--text-color);
+}
+
+.auth-form button:focus {
+    outline: none;
+    background-color: var(--text-color);
+}
+
+.auth-form div.incorrect label {
+    background-color: #f06272;
+}
+
+.auth-form div.incorrect input {
+    border-color: #f06272;
+}
+
+#error-message {
+    color: #f06272;
+    margin-bottom: 1rem;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-links a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+@media(max-width: 1100px) {
+    .auth-wrapper {
+        width: min(600px, 100%);
+        border-radius: 0;
+    }
+}
+
+/* Styles généraux */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 900px;
+}
+
+h1 {
+    color: #0d6efd;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #0d6efd;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+}
+
+/* Styles du formulaire avec effet de verre */
+#voeuxForm {
+    box-shadow: 0 10px 30px var(--card-shadow);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    background-color: var(--card-bg);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s ease;
+}
+
+#voeuxForm:hover {
+    box-shadow: 0 15px 35px var(--card-shadow-hover);
+    transform: translateY(-3px);
+}
+
+#voeuxForm h2 {
+    color: #4361ee;
+    font-weight: 600;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+#voeuxForm h2:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #4361ee;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+#voeuxForm h2:hover:after {
+    width: 100px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    transition: all 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Styles des choix */
+.choix {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.choix:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.choix .btn-danger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.choix .btn-danger:hover {
+    opacity: 1;
+}
+
+/* Styles des boutons */
+.btn {
+    padding: 10px 20px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success {
+    background-color: #198754;
+    border-color: #198754;
+    font-size: 1.1rem;
+    padding: 12px 24px;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #146c43;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour le champ de commentaires */
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Animation pour les nouveaux choix ajoutés */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.choix {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Styles responsifs */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    #voeuxForm {
+        padding: 20px;
+    }
+    
+    .choix {
+        padding: 15px;
+    }
+}
+
+/* Styles pour les alertes */
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    width: 100%;
+}
+
+.alert {
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.alert-message {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.btn-close {
+    padding: 0.5rem;
+    margin-left: 10px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Styles pour les messages d'erreur dans les formulaires */
+.form-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.invalid-input {
+    border-color: #dc3545 !important;
+}
+
+/* Styles pour la page principale des fiches de vœux */
+body.voeux-page {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.7));
+}
+
+.voeux-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-image: url('../images/fiche-backround.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: backgroundZoom 30s ease-in-out infinite alternate;
+}
+
+.animated-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle, transparent 70%, rgba(255, 255, 255, 0.6) 100%);
+    opacity: 0.5;
+    animation: pulseOverlay 8s ease-in-out infinite;
+}
+
+/* Animations pour l'arrière-plan */
+@keyframes backgroundZoom {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes pulseOverlay {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/* Animation pour le formulaire et les éléments */
+.animated-form {
+    animation: fadeInUp 1s ease-out;
+    transform-origin: center bottom;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.floating-element {
+    animation: floating 4s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Styles pour les notifications et résultats d'emails */
+
+/* Conteneur de notifications */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+/* Notifications */
+.notification {
+    background-color: white;
+    color: #333;
+    padding: 12px 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #4CAF50;
+    margin-bottom: 10px;
+    max-width: 100%;
+    transition: all 0.3s ease;
+}
+
+.notification-error {
+    border-left-color: #FF5252;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification i {
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+.notification-error i {
+    color: #FF5252;
+}
+
+.notification-close {
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.notification-close:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+/* Résultats d'envoi d'emails */
+.result-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    animation: fadeIn 0.5s ease;
+}
+
+.result-header {
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-header.success {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+.result-header.error {
+    background: linear-gradient(135deg, #F44336, #C62828);
+}
+
+.result-header:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    animation: shine 2s infinite linear;
+    z-index: 1;
+}
+
+.result-header i {
+    font-size: 2rem;
+    z-index: 2;
+}
+
+.result-header h4 {
+    margin: 0;
+    font-weight: 500;
+    z-index: 2;
+}
+
+.result-body {
+    padding: 20px;
+}
+
+.result-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 100px;
+    background-color: #f5f5f5;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-item.success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #2E7D32;
+}
+
+.stat-item.error {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #C62828;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.result-details {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.result-details h5 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+/* Table styles */
+.success-row {
+    background-color: rgba(76, 175, 80, 0.05) !important;
+}
+
+.error-row {
+    background-color: rgba(244, 67, 54, 0.05) !important;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: normal;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes shine {
+    0% { left: -100%; opacity: 0; }
+    20% { left: 100%; opacity: 0.3; }
+    100% { left: 100%; opacity: 0; }
+}
+
+/* Classes pour les animations de notification */
+.animate__animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+.animate__fadeInRight {
+    animation-name: fadeInRight;
+}
+
+.animate__fadeOutRight {
+    animation-name: fadeOutRight;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeOutRight {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+/* Bouton de changement de thème */
+#theme-switch {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: var(--base-variant);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+#theme-switch:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px var(--card-shadow-hover);
+}
+
+#theme-switch svg {
+    fill: var(--text-color);
+    width: 24px;
+    height: 24px;
+}
+
+#theme-switch svg:last-child {
+    display: none;
+}
+
+.darkmode #theme-switch svg:first-child {
+    display: none;
+}
+
+.darkmode #theme-switch svg:last-child {
+    display: block;
+}
+
+/* Adaptation des éléments du formulaire pour le dark mode */
+.darkmode .form-control, 
+.darkmode .form-select {
+    background-color: var(--input-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.darkmode .form-control::placeholder, 
+.darkmode .form-select::placeholder {
+    color: var(--secondary-text);
+}
+
+.darkmode .card-header {
+    background-color: var(--base-variant);
+    border-bottom: 1px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.darkmode .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+.darkmode .progress-step {
+    background-color: var(--base-variant);
+    color: var(--text-color);
+}
+
+.darkmode .btn-outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.darkmode .btn-outline-primary:hover {
+    background-color: var(--accent-color);
+    color: var(--base-color);
+}
+
+/* Adaptation des éléments du formulaire pour le dark mode */
+.darkmode {
+    color: var(--text-color);
+}
+
+.darkmode .navbar-brand,
+.darkmode .nav-link {
+    color: var(--text-color) !important;
+}
+
+.darkmode h1, 
+.darkmode h2, 
+.darkmode h3, 
+.darkmode h4, 
+.darkmode h5, 
+.darkmode h6,
+.darkmode .card-header h4,
+.darkmode .field-label,
+.darkmode label.form-label,
+.darkmode .form-check-label {
+    color: var(--text-color);
+}
+
+.darkmode .form-control, 
+.darkmode .form-select {
+    background-color: var(--input-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.darkmode .form-control::placeholder, 
+.darkmode .form-select::placeholder {
+    color: var(--secondary-text);
+}
+
+.darkmode .card-header {
+    background-color: var(--base-variant);
+    border-bottom: 1px solid var(--primary-color);
+    color: var(--text-color);
+}
+
+.darkmode .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+.darkmode .form-select option {
+    background-color: var(--input-color);
+    color: var(--text-color);
+}
+
+.darkmode .info-card .card-header {
+    color: var(--text-color);
+}
+
+.darkmode .info-card .card-header small,
+.darkmode .info-card .card-header .fw-bold {
+    color: var(--secondary-text) !important;
+}
+
+.darkmode .bg-light {
+    background-color: var(--base-variant) !important;
+}
+
+.darkmode .bg-light h6 {
+    color: var(--text-color);
+}
+
+.darkmode .form-text {
+    color: var(--secondary-text);
+}
+
+.darkmode .text-muted {
+    color: var(--secondary-text) !important;
+}
+
+.darkmode small {
+    color: var(--secondary-text);
+}
+
+.darkmode .module-choice-container {
+    background-color: var(--base-variant);
+    border-color: var(--primary-color);
+}
+
+.darkmode .nature-help-text {
+    color: var(--secondary-text);
+}
+
+.darkmode .pattern-dots,
+.darkmode .pattern-diagonal {
+    background-image: none;
+    background-color: var(--base-variant);
+}
+
+/* Styles spécifiques pour les menus déroulants (select) en mode sombre */
+.darkmode .form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Styles pour les boutons en mode sombre */
+.darkmode .btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.darkmode .btn-primary:hover {
+    background-color: #715ae6;
+    border-color: #715ae6;
+}
+
+.darkmode .btn {
+    color: white;
+}
+
+.darkmode .btn-outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.darkmode .btn-outline-primary:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.darkmode .btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.darkmode .btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Styles pour le bouton de logout */
+.darkmode .btn-logout {
+    background-color: var(--logout-color);
+    color: white !important;
+}
+
+.darkmode .btn-logout:hover {
+    background-color: #bd2130 !important;
+    color: white !important;
+}
+
+/* Styles spécifiques pour la progression en mode sombre */
+.darkmode .progress-step {
+    background-color: #2a324f;
+    color: var(--secondary-text);
+}
+
+.darkmode .progress-step.active {
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 0 0 4px rgba(134, 114, 255, 0.3);
+}
+
+.darkmode .progress-step.completed {
+    background-color: #50c878;
+    color: white;
+}
+
+.darkmode .form-progress::before {
+    background: #2a324f;
+}
+
+/* Stylisation des éléments de carte en mode sombre */
+.darkmode .choix {
+    background-color: var(--base-variant);
+}
+
+.darkmode .choix:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Amélioration de l'apparence des alertes en mode sombre */
+.darkmode .alert-success {
+    background-color: rgba(40, 167, 69, 0.2);
+    border-color: rgba(40, 167, 69, 0.3);
+    color: #d4edda;
+}
+
+.darkmode .alert-danger {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-color: rgba(220, 53, 69, 0.3);
+    color: #f8d7da;
+}
+
+.darkmode .alert-warning {
+    background-color: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #fff3cd;
+}
+
+/* Fond animé spécifique au mode sombre */
+.darkmode .animated-overlay {
+    background: radial-gradient(circle, transparent 70%, rgba(7, 11, 29, 0.7) 100%);
+}
+
+.darkmode .voeux-background {
+    filter: brightness(0.7) contrast(1.2);
+}
+
+/* Correction pour la barre de navigation en mode sombre */
+.darkmode .navbar {
+    background-color: var(--header-bg) !important;
+}
+
+.darkmode .navbar-brand {
+    color: var(--text-color) !important;
+}
+
+.darkmode .navbar-brand i {
+    color: var(--text-color) !important;
+}
+
+.darkmode .navbar-brand:hover,
+.darkmode .navbar-brand:focus {
+    color: var(--accent-color) !important;
+    background-color: rgba(134, 114, 255, 0.1);
+}
+
+.darkmode .navbar-brand:hover i,
+.darkmode .navbar-brand:focus i {
+    color: var(--accent-color) !important;
+}
+
+.darkmode .navbar-brand::after {
+    background-color: var(--accent-color);
+}
+
+/* Correction de la barre de navigation Bootstrap en mode sombre */
+.darkmode .navbar.navbar-dark {
+    background-color: var(--header-bg) !important;
+}
+
+.darkmode .navbar-dark .navbar-brand,
+.darkmode .navbar-dark .navbar-nav .nav-link {
+    color: var(--text-color) !important;
+}
+
+.darkmode .navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.darkmode .navbar-dark .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Correction pour les vagues animées sous la navbar */
+.darkmode .wave-container .wave {
+    opacity: 0.3;
+    filter: brightness(0.7);
+}
+
+/* Correction d'urgence pour la navbar en mode sombre */
+body.darkmode .navbar.navbar-dark,
+body.darkmode nav.navbar,
+html body.darkmode .navbar,
+.darkmode .navbar {
+    background-color: #0c1024 !important;
+    border-bottom: 1px solid #101425 !important;
+}
+
+body.darkmode .navbar .navbar-brand,
+body.darkmode nav.navbar .navbar-brand,
+html body.darkmode .navbar .navbar-brand {
+    color: #ffffff !important;
+}
+
+body.darkmode .navbar .navbar-brand i,
+body.darkmode nav.navbar .navbar-brand i,
+html body.darkmode .navbar .navbar-brand i {
+    color: #ffffff !important;
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #495057;
+    z-index: 10;
+}
+
+.input-container input {
+    padding-left: 35px;
+}
+
+/* Styles pour la modale de profil utilisateur */
+#profileModal .modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+#profileModal .modal-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    padding: 20px 25px;
+    border-bottom: none;
+}
+
+#profileModal .modal-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#profileModal .modal-body {
+    padding: 30px;
+}
+
+/* Styles pour l'image de profil */
+#profile-picture-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--base-variant);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#profile-picture-preview:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+}
+
+/* Style pour le bouton d'upload d'image */
+label[for="profile-picture-input"] {
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+label[for="profile-picture-input"]:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+label[for="profile-picture-input"] i {
+    font-size: 1rem;
+}
+
+/* Styles pour les champs du formulaire */
+#profile-form .form-label {
+    font-weight: 500;
+    color: var(--secondary-text);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+#profile-form .form-control {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--base-variant);
+    transition: all 0.3s ease;
+}
+
+#profile-form .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+#profile-form .form-control[readonly] {
+    background-color: rgba(0, 0, 0, 0.03);
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+#profile-form .form-text {
+    font-size: 0.8rem;
+    color: var(--secondary-text);
+}
+
+/* Style pour les boutons de la modale */
+#profileModal .modal-footer {
+    padding: 15px 25px 25px;
+    border-top: none;
+}
+
+#profileModal .btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+#profileModal .btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border: none;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+#profileModal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.4);
+}
+
+#profileModal .btn-outline-secondary {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: var(--secondary-text);
+}
+
+#profileModal .btn-outline-secondary:hover {
+    background-color: var(--base-variant);
+}
+
+/* Styles pour le thème sombre */
+.darkmode #profileModal .modal-content {
+    background-color: var(--card-bg);
+}
+
+.darkmode #profileModal .form-control {
+    background-color: var(--input-color);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.darkmode #profileModal .form-control[readonly] {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.darkmode #profileModal .form-text,
+.darkmode #profileModal .form-label {
+    color: var(--secondary-text);
+}
+
+.darkmode #profile-picture-preview {
+    border-color: var(--card-bg);
+}
+
+.darkmode #profileModal .btn-outline-secondary {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.darkmode #profileModal .btn-outline-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
