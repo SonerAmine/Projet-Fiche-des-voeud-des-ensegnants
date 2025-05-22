@@ -1,0 +1,373 @@
+/**
+ * Styles spécifiques pour mobiles
+ * Optimisations pour les écrans de petite taille
+ */
+
+/* Styles pour les petits écrans (mobiles) */
+@media (max-width: 576px) {
+  /* Ajustements du container */
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  /* Ajustements de la navbar pour mobile */
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  /* Amélioration de la lisibilité du menu hamburger */
+  .navbar-toggler {
+    border: none;
+    padding: 8px;
+    background-color: rgba(var(--primary-rgb, 13, 110, 253), 0.1);
+    border-radius: 8px;
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  .navbar-toggler-icon {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  /* Navigation mobile adaptée */
+  .navbar-collapse {
+    background-color: var(--base-color, white);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+  }
+
+  .navbar-nav {
+    gap: 10px;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-link {
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  /* Style spécial pour les liens actifs sur mobile */
+  .nav-link.active {
+    background-color: var(--primary-color, #0d6efd);
+    color: white !important;
+  }
+
+  /* Ajustements des boutons pour mobile */
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+
+  /* Ajustements des cartes pour mobile */
+  .card {
+    margin-bottom: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* Formulaires sur mobile */
+  .form-control, .form-select {
+    font-size: 16px; /* Évite le zoom automatique sur iOS */
+    height: 45px;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+  }
+
+  /* Adaptation des tableaux pour mobile */
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Adaptation de la page de login pour mobile */
+  .container.login-container {
+    margin: 10px;
+    width: 95%;
+  }
+
+  .left-panel {
+    display: none; /* Masque le panneau gauche sur mobile */
+  }
+
+  .right-panel {
+    width: 100%;
+    padding: 25px;
+    border-radius: 20px;
+  }
+
+  /* Ajustements pour le panel admin sur mobile */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100%;
+    width: 250px;
+    z-index: 1000;
+    transition: all 0.3s;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .content-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* Ajustement des steps de formulaire */
+  .form-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 1.25rem;
+  }
+  
+  .form-steps::before {
+    top: 0;
+    bottom: 0;
+    left: 1.25rem;
+    right: auto;
+    width: 2px;
+    height: 100%;
+    transform: none;
+  }
+  
+  .form-step {
+    margin-bottom: 1rem;
+  }
+
+  /* Amélioration de l'espacement des éléments */
+  h1, h2, h3 {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Styles pour le menu mobile */
+  .mobile-menu-toggle {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color, #0d6efd);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-menu-toggle:active {
+    transform: scale(0.95);
+  }
+  
+  /* Animation du menu mobile */
+  .mobile-nav {
+    padding-top: 60px;
+  }
+
+  .mobile-nav .nav-link {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInNav 0.3s forwards;
+    margin: 10px 0;
+    width: 80%;
+    text-align: center;
+  }
+
+  .mobile-nav .nav-link:nth-child(1) { animation-delay: 0.1s; }
+  .mobile-nav .nav-link:nth-child(2) { animation-delay: 0.2s; }
+  .mobile-nav .nav-link:nth-child(3) { animation-delay: 0.3s; }
+  .mobile-nav .nav-link:nth-child(4) { animation-delay: 0.4s; }
+  .mobile-nav .nav-link:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes fadeInNav {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Styles pour les alertes sur mobile */
+  .alert {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Adaptations du profil utilisateur pour mobile */
+  .profile-container {
+    flex-direction: column;
+  }
+  
+  #profile-picture-preview {
+    margin: 0 auto 1rem;
+  }
+
+  /* Amélioration du footer pour mobile */
+  footer {
+    text-align: center;
+    padding: 20px 15px;
+  }
+
+  footer img {
+    height: 80px !important;
+  }
+
+  /* Optimisation des notifications sur mobile */
+  #notification-container {
+    width: 90%;
+    right: 5%;
+  }
+
+  .notification {
+    padding: 10px;
+  }
+
+  /* Taille des titres ajustée pour mobile */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Styles améliorés pour le formulaire de connexion sur mobile */
+  .input-box input {
+    font-size: 16px;
+    padding: 12px 12px 12px 40px;
+  }
+
+  .login-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .forgot-link {
+    margin-bottom: 20px;
+  }
+}
+
+/* Styles pour les tablettes */
+@media (min-width: 577px) and (max-width: 768px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  /* Adaptation de la page de login pour tablette */
+  .left-panel {
+    width: 40%;
+    padding: 30px;
+  }
+  
+  .right-panel {
+    width: 60%;
+    padding: 30px;
+  }
+  
+  /* Adaptations pour les boutons */
+  .btn {
+    padding: 0.6rem 1rem;
+  }
+
+  /* Amélioration de la navigation sur tablette */
+  .navbar-collapse {
+    background-color: var(--base-color, white);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+  }
+}
+
+/* Orientation paysage sur mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .container.login-container {
+    height: auto;
+  }
+  
+  .auth-wrapper {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  /* Ajustement spécifique pour le mode paysage */
+  .mobile-nav {
+    overflow-y: auto;
+    padding: 60px 0 20px;
+  }
+
+  .mobile-nav .nav-link {
+    margin: 8px 0;
+  }
+}
+
+/* Amélioration de l'accessibilité pour les dispositifs tactiles */
+@media (hover: none) {
+  /* Augmenter la taille des zones cliquables */
+  .nav-link,
+  .btn,
+  .form-control,
+  .form-select {
+    min-height: 44px; /* Taille minimale recommandée pour les éléments tactiles */
+  }
+  
+  /* Augmenter l'espacement entre les éléments cliquables */
+  .nav-item,
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  /* Amélioration des interactions tactiles */
+  a, button, input[type="button"], input[type="submit"], .btn {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  a:active, button:active, input[type="button"]:active, input[type="submit"]:active, .btn:active {
+    transform: scale(0.98);
+  }
+} 
