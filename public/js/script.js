@@ -209,13 +209,16 @@ async function updateModules(containerId, index) {
 // Fonction pour ajouter un choix dynamiquement
 function ajouterChoix(semestre) {
     const container = document.getElementById(`choix-${semestre}-container`);
-    const index = container.children.length + 1;
+    const choixCount = container.children.length + 1;
     const div = document.createElement('div');
     div.className = 'module-choice-container';
+    
+    // Ajouter l'attribut data-preference-order avec la valeur du choix courant
+    div.setAttribute('data-preference-order', choixCount);
 
     div.innerHTML = `
         <div class="module-selection-header">
-            <h5 class="mb-0">Choix ${index}</h5>
+            <h5 class="mb-0">Choix ${choixCount}</h5>
             <button type="button" class="btn btn-supprimer" onclick="supprimerChoix(this)">
                 <i class="bi bi-trash me-1"></i>Supprimer
             </button>
@@ -223,15 +226,15 @@ function ajouterChoix(semestre) {
         
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="palier_${semestre}_${index}" class="field-label">Palier :</label>
-                <select id="palier_${semestre}_${index}" name="choix_${semestre}[${index-1}][palier]" class="form-select" required>
+                <label for="palier_${semestre}_${choixCount}" class="field-label">Palier :</label>
+                <select id="palier_${semestre}_${choixCount}" name="choix_${semestre}[${choixCount-1}][palier]" class="form-select" required>
                     <option value="">Sélectionnez un palier</option>
                 </select>
             </div>
             
             <div class="col-md-6 mb-3">
-                <label for="specialite_${semestre}_${index}" class="field-label">Spécialité :</label>
-                <select id="specialite_${semestre}_${index}" name="choix_${semestre}[${index-1}][specialite]" class="form-select" required>
+                <label for="specialite_${semestre}_${choixCount}" class="field-label">Spécialité :</label>
+                <select id="specialite_${semestre}_${choixCount}" name="choix_${semestre}[${choixCount-1}][specialite]" class="form-select" required>
                     <option value="">Sélectionnez d'abord un palier</option>
                 </select>
             </div>
@@ -239,8 +242,8 @@ function ajouterChoix(semestre) {
         
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="module_${semestre}_${index}" class="field-label">Module :</label>
-                <select id="module_${semestre}_${index}" name="choix_${semestre}[${index-1}][module]" class="form-select" required>
+                <label for="module_${semestre}_${choixCount}" class="field-label">Module :</label>
+                <select id="module_${semestre}_${choixCount}" name="choix_${semestre}[${choixCount-1}][module]" class="form-select" required>
                     <option value="">Sélectionnez d'abord une spécialité</option>
                 </select>
             </div>
@@ -248,17 +251,17 @@ function ajouterChoix(semestre) {
             <div class="col-md-6 mb-3">
                 <label class="field-label">Nature :</label>
                 <div class="nature-options">
-                    <input type="checkbox" class="nature-checkbox" id="nature_${semestre}_${index}_Cours" 
-                           name="choix_${semestre}[${index-1}][nature][]" value="Cours">
-                    <label class="nature-label" for="nature_${semestre}_${index}_Cours">Cours</label>
+                    <input type="checkbox" class="nature-checkbox" id="nature_${semestre}_${choixCount}_Cours" 
+                           name="choix_${semestre}[${choixCount-1}][nature][]" value="Cours">
+                    <label class="nature-label" for="nature_${semestre}_${choixCount}_Cours">Cours</label>
                     
-                    <input type="checkbox" class="nature-checkbox" id="nature_${semestre}_${index}_TD" 
-                           name="choix_${semestre}[${index-1}][nature][]" value="TD">
-                    <label class="nature-label" for="nature_${semestre}_${index}_TD">TD</label>
+                    <input type="checkbox" class="nature-checkbox" id="nature_${semestre}_${choixCount}_TD" 
+                           name="choix_${semestre}[${choixCount-1}][nature][]" value="TD">
+                    <label class="nature-label" for="nature_${semestre}_${choixCount}_TD">TD</label>
                     
-                    <input type="checkbox" class="nature-checkbox" id="nature_${semestre}_${index}_TP" 
-                           name="choix_${semestre}[${index-1}][nature][]" value="TP">
-                    <label class="nature-label" for="nature_${semestre}_${index}_TP">TP</label>
+                    <input type="checkbox" class="nature-checkbox" id="nature_${semestre}_${choixCount}_TP" 
+                           name="choix_${semestre}[${choixCount-1}][nature][]" value="TP">
+                    <label class="nature-label" for="nature_${semestre}_${choixCount}_TP">TP</label>
                 </div>
                 <small class="nature-help-text"><i class="bi bi-info-circle me-1"></i>Vous pouvez sélectionner plusieurs options</small>
             </div>
@@ -268,9 +271,9 @@ function ajouterChoix(semestre) {
     container.appendChild(div);
     
     // Initialiser les événements pour le nouveau choix
-    const palierSelect = document.getElementById(`palier_${semestre}_${index}`);
-    const specialiteSelect = document.getElementById(`specialite_${semestre}_${index}`);
-    const moduleSelect = document.getElementById(`module_${semestre}_${index}`);
+    const palierSelect = document.getElementById(`palier_${semestre}_${choixCount}`);
+    const specialiteSelect = document.getElementById(`specialite_${semestre}_${choixCount}`);
+    const moduleSelect = document.getElementById(`module_${semestre}_${choixCount}`);
     
     // Charger les niveaux
     chargerNiveaux(palierSelect);
@@ -296,37 +299,57 @@ function ajouterChoix(semestre) {
 
 // Fonction pour supprimer un choix dynamique
 function supprimerChoix(button) {
-    // Identifier le conteneur du module et son semestre
-    const choixContainer = button.closest('.module-choice-container');
-    const semestre = choixContainer.parentElement.id.includes('s1') ? 's1' : 's2';
+    const choiceDiv = button.closest('.module-choice-container');
+    const semestre = choiceDiv.querySelector('select[name*="choix_s"]').name.includes('choix_s1') ? 's1' : 's2';
     
-    // Supprimer le choix
-    choixContainer.remove();
-    
-    // Renuméroter les choix restants
-    renumberChoices(semestre);
+    // Demander confirmation avant de supprimer
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce choix ?')) {
+        // Conserver l'élément parent avant de supprimer l'enfant
+        const container = choiceDiv.parentElement;
+        
+        container.removeChild(choiceDiv);
+        
+        // Renumbering the remaining choices in the container
+        renumberChoices(semestre);
+    }
 }
 
 // Fonction pour renumber choices after deletion
 function renumberChoices(semestre) {
-    const container = document.getElementById(`choix-${semestre}-container`);
-    const choices = container.querySelectorAll('.module-choice-container');
+    const choicesContainer = document.getElementById(`choix-${semestre}-container`);
+    const choices = Array.from(choicesContainer.querySelectorAll('.module-choice-container'));
     
     choices.forEach((choice, index) => {
-        // Update title
-        const title = choice.querySelector('h5');
-        if (title) {
-            title.textContent = `Choix ${index + 1}`;
-        }
+        // Mettre à jour le titre
+        const title = choice.querySelector('.module-selection-header h5');
+        title.textContent = `Choix ${index + 1}`;
         
-        // Update input names
-        const inputs = choice.querySelectorAll('select');
-        inputs.forEach(input => {
-            const name = input.name;
-            if (name) {
-                input.name = name.replace(/choix_[^[]+\[(\d+)\]/, `choix_${semestre}[${index}]`);
+        // Mettre à jour les ID et names des inputs
+        updateInputsForChoice(choice, index, semestre);
+        
+        // Si l'élément a un attribut data-preference-order (pour le chargement de données existantes)
+        // conserver cette valeur, sinon utiliser l'index + 1
+        if (!choice.hasAttribute('data-preference-order')) {
+            choice.setAttribute('data-preference-order', index + 1);
+        }
+    });
+}
+
+function updateInputsForChoice(choice, index, semestre) {
+    const inputs = choice.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        const name = input.name;
+        if (name) {
+            // Mettre à jour l'index dans le nom (pattern: choix_s1[0][palier] -> choix_s1[1][palier])
+            input.name = name.replace(/choix_[^[]+\[(\d+)\]/, `choix_${semestre}[${index}]`);
+            
+            // Mettre à jour les ID
+            const idParts = input.id.split('_');
+            if (idParts.length >= 3) {
+                idParts[2] = index + 1;
+                input.id = idParts.join('_');
             }
-        });
+        }
     });
 }
 
@@ -614,7 +637,8 @@ async function handleSubmit(event) {
                 palier: palierSelect.value,
                 specialite: specialiteSelect.value,
                 module: moduleSelect.value,
-                nature: nature
+                nature: nature,
+                preference_order: idx + 1  // Ajouter l'ordre de préférence basé sur l'index (1-indexé)
             };
         });
 
@@ -655,7 +679,8 @@ async function handleSubmit(event) {
                 palier: palierSelect.value,
                 specialite: specialiteSelect.value,
                 module: moduleSelect.value,
-                nature: nature
+                nature: nature,
+                preference_order: idx + 1  // Ajouter l'ordre de préférence basé sur l'index (1-indexé)
             };
         });
         
@@ -1399,6 +1424,23 @@ async function remplirChoixSemestre(voeu, semestre) {
                 const choix = choixArray[i];
                 
                 console.log(`Configuration du choix ${semestre} #${index}:`, choix);
+                
+                // Récupérer le conteneur du choix actuel
+                const choixContainer = document.querySelector(`#choix-${semestre}-container .module-choice-container:nth-child(${index})`);
+                if (choixContainer) {
+                    // Définir l'attribut data-preference-order avec la valeur de preference_order du choix
+                    // Utiliser la valeur du choix si disponible, sinon l'index + 1
+                    const preferenceOrder = choix.preference_order || (i + 1);
+                    choixContainer.setAttribute('data-preference-order', preferenceOrder);
+                    
+                    // Mettre à jour le titre pour afficher l'ordre de préférence
+                    const titleElement = choixContainer.querySelector('.module-selection-header h5');
+                    if (titleElement) {
+                        titleElement.textContent = `Choix ${preferenceOrder}`;
+                    }
+                    
+                    console.log(`Ordre de préférence défini pour le choix ${semestre} #${index}: ${preferenceOrder}`);
+                }
                 
                 // Sélectionner le palier
                 const palierSelect = document.getElementById(`palier_${semestre}_${index}`);

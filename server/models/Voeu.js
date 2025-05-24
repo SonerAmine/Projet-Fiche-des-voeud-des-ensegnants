@@ -17,6 +17,12 @@ const choixSchema = new mongoose.Schema({
         ref: 'Module',
         required: [true, 'Le module est obligatoire']
     },
+    preference_order: {
+        type: Number,
+        default: 1,
+        min: [1, 'L\'ordre de préférence doit être au moins 1'],
+        required: [true, 'L\'ordre de préférence est obligatoire']
+    },
     nature: { 
         type: [String], 
         required: [true, 'La nature est obligatoire'],

@@ -832,7 +832,7 @@ function loadVoeux() {
                                 );
                             }
                             
-                            // Ajouter un indicateur d'expérience
+                            // Supprimer l'affichage de l'ordre de préférence, garder juste le nom du module et l'indicateur d'expérience
                             return hasExperience 
                                 ? `<div>${moduleName} <i class="bi bi-check-circle-fill text-success" title="Expérience"></i></div>` 
                                 : `<div>${moduleName}</div>`;
@@ -867,7 +867,7 @@ function loadVoeux() {
                                 );
                             }
                             
-                            // Ajouter un indicateur d'expérience
+                            // Supprimer l'affichage de l'ordre de préférence, garder juste le nom du module et l'indicateur d'expérience
                             return hasExperience 
                                 ? `<div>${moduleName} <i class="bi bi-check-circle-fill text-success" title="Expérience"></i></div>` 
                                 : `<div>${moduleName}</div>`;
@@ -1179,7 +1179,10 @@ function fetchAndDisplayVoeuDetails(voeuId) {
                             </h6>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-muted"><i class="bi bi-bookmark me-1"></i>${specialiteName}</span>
-                                <div>${natureBadges || '<span class="badge bg-secondary">Non spécifié</span>'}</div>
+                                <div>
+                                    <span class="badge bg-dark me-2">Choix ${choix.preference_order || 1}</span>
+                                    ${natureBadges || '<span class="badge bg-secondary">Non spécifié</span>'}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1249,7 +1252,10 @@ function fetchAndDisplayVoeuDetails(voeuId) {
                             </h6>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-muted"><i class="bi bi-bookmark me-1"></i>${specialiteName}</span>
-                                <div>${natureBadges || '<span class="badge bg-secondary">Non spécifié</span>'}</div>
+                                <div>
+                                    <span class="badge bg-dark me-2">Choix ${choix.preference_order || 1}</span>
+                                    ${natureBadges || '<span class="badge bg-secondary">Non spécifié</span>'}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -3224,7 +3230,8 @@ async function exportVoeuxPDF() {
                 for (const choix of voeu.choix_s1) {
                     const moduleName = choix.module ? choix.module.nom : 'Module non spécifié';
                     const nature = Array.isArray(choix.nature) ? choix.nature.join(', ') : 'Non spécifié';
-                    doc.text(`• ${moduleName} (${nature})`, margin + 5, yPosition);
+                    const prefOrder = choix.preference_order || 1;
+                    doc.text(`• ${moduleName} (${nature}) - Choix ${prefOrder}`, margin + 5, yPosition);
                     yPosition += 7;
                 }
             } else {
@@ -3245,7 +3252,8 @@ async function exportVoeuxPDF() {
                 for (const choix of voeu.choix_s2) {
                     const moduleName = choix.module ? choix.module.nom : 'Module non spécifié';
                     const nature = Array.isArray(choix.nature) ? choix.nature.join(', ') : 'Non spécifié';
-                    doc.text(`• ${moduleName} (${nature})`, margin + 5, yPosition);
+                    const prefOrder = choix.preference_order || 1;
+                    doc.text(`• ${moduleName} (${nature}) - Choix ${prefOrder}`, margin + 5, yPosition);
                     yPosition += 7;
                 }
             } else {
@@ -3366,7 +3374,8 @@ async function exportVoeuxExcel() {
                 modulesS1 = voeu.choix_s1.map(choix => {
                     const moduleName = choix.module ? (choix.module.nom || choix.module) : 'Module non spécifié';
                     const nature = Array.isArray(choix.nature) ? choix.nature.join(', ') : 'Non spécifié';
-                    return `${moduleName} (${nature})`;
+                    const prefOrder = choix.preference_order || 1;
+                    return `${moduleName} (${nature}) - Choix ${prefOrder}`;
                 }).join(' | ');
             }
             // Modules S2
@@ -3375,7 +3384,8 @@ async function exportVoeuxExcel() {
                 modulesS2 = voeu.choix_s2.map(choix => {
                     const moduleName = choix.module ? (choix.module.nom || choix.module) : 'Module non spécifié';
                     const nature = Array.isArray(choix.nature) ? choix.nature.join(', ') : 'Non spécifié';
-                    return `${moduleName} (${nature})`;
+                    const prefOrder = choix.preference_order || 1;
+                    return `${moduleName} (${nature}) - Choix ${prefOrder}`;
                 }).join(' | ');
             }
             // Statut
