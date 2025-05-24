@@ -77,8 +77,8 @@ const voeuSchema = new mongoose.Schema({
         type: String, 
         required: [true, 'Le grade est obligatoire'],
         enum: {
-            values: ['Professeur', 'Maître de conférences', 'Maître assistant', 'Assistant'],
-            message: 'Le grade doit être Professeur, Maître de conférences, Maître assistant ou Assistant'
+            values: ['Professeur', 'Maître de conférences class A', 'Maître de conférences class B', 'Maître Assistant class A', 'Maître Assistant class B', 'Assistant'],
+            message: 'Le grade doit être Professeur, Maître de conférences class A, Maître de conférences class B, Maître Assistant class A, Maître Assistant class B ou Assistant'
         }
     },
     anciennete: {
