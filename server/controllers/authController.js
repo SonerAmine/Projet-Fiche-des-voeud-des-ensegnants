@@ -60,7 +60,7 @@ exports.forgotPassword = async (req, res, next) => {
             Vous recevez cet email car vous (ou quelqu'un d'autre) avez demandé la réinitialisation du mot de passe.
             Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :
             \n\n${resetUrl}\n\n
-            Ce lien expirera dans 24 heures.
+            Ce lien expirera dans 10 minutes.
             Si vous n'avez pas demandé de réinitialisation, ignorez cet email.
         `;
 
@@ -77,7 +77,7 @@ exports.forgotPassword = async (req, res, next) => {
                     <a href="${resetUrl}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0;">
                         Réinitialiser mon mot de passe
                     </a>
-                    <p>Ce lien expirera dans 24 heures.</p>
+                    <p>Ce lien expirera dans 10 minutes.</p>
                     <p>Si vous n'avez pas demandé de réinitialisation, ignorez cet email.</p>
                 `
             });

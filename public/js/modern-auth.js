@@ -178,7 +178,7 @@ if (forgotPasswordForm) {
                             <h4 class="success-subtitle">Email de récupération envoyé !</h4>
                             <p class="success-text">Nous avons envoyé un lien de réinitialisation à <strong>${email}</strong>.</p>
                             <p class="success-text">Veuillez consulter votre boîte de réception et suivre les instructions pour réinitialiser votre mot de passe.</p>
-                            <p class="success-note"><i class="bx bx-time"></i> Le lien est valable pendant <strong>24 heures</strong> pour des raisons de sécurité.</p>
+                            <p class="success-note"><i class="bx bx-time"></i> Le lien est valable pendant <strong>10 minutes</strong> pour des raisons de sécurité.</p>
                         </div>
                         <div class="auth-links">
                             <a href="login.html" class="styled-button"><i class='bx bx-arrow-back'></i> Retour à la connexion</a>
@@ -208,7 +208,7 @@ if (forgotPasswordForm) {
                             <h4 class="success-subtitle">Email de récupération envoyé !</h4>
                             <p class="success-text">Nous avons envoyé un lien de réinitialisation à <strong>${email}</strong>.</p>
                             <p class="success-text">Veuillez consulter votre boîte de réception et suivre les instructions pour réinitialiser votre mot de passe.</p>
-                            <p class="success-note"><i class="bx bx-time"></i> Le lien est valable pendant <strong>24 heures</strong> pour des raisons de sécurité.</p>
+                            <p class="success-note"><i class="bx bx-time"></i> Le lien est valable pendant <strong>10 minutes</strong> pour des raisons de sécurité.</p>
                         </div>
                         <div class="auth-links">
                             <a href="login.html" class="styled-button"><i class='bx bx-arrow-back'></i> Retour à la connexion</a>
