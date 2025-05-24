@@ -530,7 +530,7 @@ router.post('/', protect, authorizeStandardUsers, validerDonneesVoeux, async (re
 // Récupérer toutes les fiches de vœux avec pagination et filtrage
 router.get('/', protect, async (req, res, next) => {
     try {
-        const { page = 1, limit = 10, statut, palier, specialite, annee } = req.query;
+        const { page = 1, limit = 10, statut, palier, specialite, annee, all } = req.query;
         
         // Construire le filtre
         const filtre = {};
@@ -538,30 +538,48 @@ router.get('/', protect, async (req, res, next) => {
         // Si l'utilisateur n'est pas admin ou superadmin, il ne peut voir que ses propres vœux
         if (req.user.role !== 'admin' && req.user.role !== 'superadmin') {
             filtre.email = req.user.email;
+        } else if (all === 'true' && (req.user.role === 'admin' || req.user.role === 'superadmin')) {
+            // Si le paramètre all=true est présent et l'utilisateur est admin/superadmin,
+            // ne pas appliquer de filtres supplémentaires pour retourner tous les voeux
+            console.log('Mode tous les voeux activé, aucun filtrage appliqué');
+        } else {
+            // Appliquer les filtres normaux pour les admins/superadmins
+            if (statut) filtre.statut = statut;
+            if (palier) filtre['choix_s1.palier'] = palier;
+            if (specialite) filtre['choix_s1.specialite'] = specialite;
+            if (annee) filtre.annee = annee;
         }
         
-        if (statut) filtre.statut = statut;
-        if (palier) filtre['choix_s1.palier'] = palier;
-        if (specialite) filtre['choix_s1.specialite'] = specialite;
-        if (annee) filtre.annee = annee;
+        // Exécuter la requête avec pagination, sauf si all=true
+        const query = Voeu.find(filtre).sort({ date_creation: -1 });
         
-        // Exécuter la requête avec pagination
-        const voeux = await Voeu.find(filtre)
-            .sort({ date_creation: -1 })
-            .limit(limit * 1)
-            .skip((page - 1) * limit)
-            .exec();
-        
-        // Compter le nombre total de documents pour la pagination
-        const count = await Voeu.countDocuments(filtre);
-        
-        res.json({
-            success: true,
-            voeux,
-            totalPages: Math.ceil(count / limit),
-            currentPage: page,
-            totalVoeux: count
-        });
+        if (all === 'true' && (req.user.role === 'admin' || req.user.role === 'superadmin')) {
+            // Sans pagination si all=true pour les administrateurs
+            const voeux = await query;
+            
+            return res.json({
+                success: true,
+                voeux,
+                totalVoeux: voeux.length
+            });
+        } else {
+            // Avec pagination normalement
+            const voeux = await query
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .exec();
+            
+            // Compter le nombre total de documents pour la pagination
+            const count = await Voeu.countDocuments(filtre);
+            
+            return res.json({
+                success: true,
+                voeux,
+                totalPages: Math.ceil(count / limit),
+                currentPage: page,
+                totalVoeux: count
+            });
+        }
     } catch (error) {
         console.error('Erreur lors de la récupération des vœux:', error);
         next(error); // Transmettre l'erreur au middleware de gestion d'erreurs

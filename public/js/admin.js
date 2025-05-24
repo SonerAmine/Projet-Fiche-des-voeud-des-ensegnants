@@ -786,7 +786,7 @@ function loadVoeux() {
         }
         
         // Deuxième étape: charger les vœux et utiliser la map des modules
-        return fetch('/api/voeux', {
+        return fetch('/api/voeux?all=true', {  // Ajouter le paramètre all=true pour récupérer tous les voeux sans restriction
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -1425,6 +1425,7 @@ function fetchAndDisplayVoeuDetails(voeuId) {
                             <p><strong>Nom :</strong> ${voeu.nom || 'Non spécifié'}</p>
                             <p><strong>Email :</strong> ${voeu.email || 'Non spécifié'}</p>
                             <p><strong>Téléphone :</strong> ${voeu.telephone || 'Non spécifié'}</p>
+                            <p><strong>Département :</strong> ${departementInfo}</p>
                 </div>
                 <div class="col-md-6">
                             <p><strong>Grade :</strong> ${voeu.grade || 'Non spécifié'}</p>
