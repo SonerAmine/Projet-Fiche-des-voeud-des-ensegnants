@@ -151,9 +151,26 @@ router.get('/modules/:moduleId/enseignants', async (req, res, next) => {
 // Liste des enseignants (depuis les vœux)
 router.get('/enseignants', async (req, res, next) => {
     try {
-        const enseignants = await Voeu.find()
-            .select('nom email telephone grade bureau anciennete')
-            .sort('nom');
+        // Utiliser l'agrégation pour éviter les doublons basés sur l'email
+        const enseignants = await Voeu.aggregate([
+            {
+                $sort: { date_creation: -1 } // Trier par date de création la plus récente d'abord
+            },
+            {
+                $group: {
+                    _id: "$email", // Regrouper par email pour éviter les doublons
+                    nom: { $first: "$nom" },
+                    email: { $first: "$email" },
+                    telephone: { $first: "$telephone" },
+                    grade: { $first: "$grade" },
+                    bureau: { $first: "$bureau" },
+                    anciennete: { $first: "$anciennete" }
+                }
+            },
+            {
+                $sort: { nom: 1 } // Trier par nom
+            }
+        ]);
         
         res.json(enseignants);
     } catch (error) {

@@ -998,19 +998,11 @@ function filterVoeux() {
         const enseignantModulesS2 = row.cells[3].textContent.toLowerCase();
         const enseignantHeuresSupp = row.cells[4].textContent.trim();
         
-        // Pour le filtre d'année, vérifions si le badge d'année est affiché dans la ligne ou près du tableau
-        let anneeVisible = false;
+        // Récupérer l'année académique depuis l'attribut data-annee
+        const rowAnnee = row.getAttribute('data-annee');
         
-        // On vérifie d'abord si le voeu a l'année indiquée dans un attribut data
-        if (row.getAttribute('data-annee') === annee) {
-            anneeVisible = true;
-        } 
-        // Si pas d'attribut data, on vérifie dans le texte affiché dans le tableau ou sur la page
-        else if (annee && document.getElementById('voeux-section').textContent.includes(annee)) {
-            anneeVisible = true;
-        }
-        
-        let anneeMatch = !annee || anneeVisible;
+        // Vérifier si l'année correspond
+        let anneeMatch = !annee || (rowAnnee === annee);
         let statutMatch = true;
         let gradeMatch = true;
         let heuresSuppMatch = true;
@@ -1433,6 +1425,7 @@ function fetchAndDisplayVoeuDetails(voeuId) {
                             <p><strong>Ancienneté :</strong> ${voeu.anciennete !== undefined ? voeu.anciennete + ' ans' : 'Non spécifié'}</p>
                             <p><strong>Bureau :</strong> ${voeu.bureau || 'Non spécifié'}</p>
                             <p><strong>Date de création :</strong> ${new Date(voeu.date_creation).toLocaleDateString()}</p>
+                            <p><strong>Année académique :</strong> <span class="badge bg-primary">${voeu.annee || 'Non spécifié'}</span></p>
                         </div>
                     </div>
                     ${statusSelector}
@@ -3200,6 +3193,8 @@ async function exportVoeuxPDF() {
             doc.text(`Bureau: ${voeu.bureau || 'Non spécifié'}`, margin, yPosition);
             yPosition += 7;
             doc.text(`Ancienneté: ${voeu.anciennete || 'Non spécifié'} ans`, margin, yPosition);
+            yPosition += 7;
+            doc.text(`Année académique: ${voeu.annee || 'Non spécifié'}`, margin, yPosition);
             yPosition += 10;
 
             // Statut du vœu
@@ -3361,7 +3356,7 @@ async function exportVoeuxExcel() {
         const excelData = [];
         // En-têtes
         excelData.push([
-            'Nom', 'Email', 'Grade', 'Statut', 'Modules Semestre 1', 'Modules Semestre 2', 'Heures supplémentaires', 'Téléphone', 'Bureau', 'Ancienneté'
+            'Nom', 'Email', 'Grade', 'Statut', 'Modules Semestre 1', 'Modules Semestre 2', 'Heures supplémentaires', 'Téléphone', 'Bureau', 'Ancienneté', 'Année académique'
         ]);
         // Lignes
         voeux.forEach(voeu => {
@@ -3401,7 +3396,8 @@ async function exportVoeuxExcel() {
                 heuresSupp,
                 voeu.telephone || '',
                 voeu.bureau || '',
-                voeu.anciennete || ''
+                voeu.anciennete || '',
+                voeu.annee || ''
             ]);
         });
 
@@ -3432,7 +3428,8 @@ async function exportVoeuxExcel() {
             { wch: 10 }, // Heures supp
             { wch: 15 }, // Téléphone
             { wch: 15 }, // Bureau
-            { wch: 12 }  // Ancienneté
+            { wch: 12 },  // Ancienneté
+            { wch: 15 }   // Année académique
         ];
         // Appliquer un style alterné sur les lignes
         for (let R = 1; R <= range.e.r; ++R) {
