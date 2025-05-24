@@ -438,9 +438,11 @@ function ajouterModuleHistorique() {
                     option.textContent = module.nom;
                     moduleSelect.appendChild(option);
                 });
-            } catch (error) {
-                console.error('Erreur lors du chargement des modules pour historique:', error);
-                showAlert('Erreur lors du chargement des modules', 'danger');
+                
+                // Attendre encore
+                await new Promise(resolve => setTimeout(resolve, 500));
+            } catch (err) {
+                console.error(`Erreur lors du rechargement des modules pour le module historique #${i+1}:`, err);
             }
         }
     });
@@ -908,6 +910,15 @@ async function initializeApp() {
         console.error('Utilisateur non connecté ou site verrouillé, redirection vers la page de connexion');
         window.location.href = '/login.html';
         return;
+    }
+    
+    // Récupérer les informations de l'utilisateur connecté
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    // Pré-remplir le champ email avec l'email de l'utilisateur connecté
+    const emailField = document.getElementById('email');
+    if (emailField && userData.email) {
+        emailField.value = userData.email;
     }
     
     // Initialiser le formulaire dynamique (charger les départements)
