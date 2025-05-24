@@ -1498,6 +1498,95 @@
                 });
             }, 500); // Léger délai pour s'assurer que tout est chargé
         });
+
+        // Fonction pour nettoyer les messages d'erreur ajoutés manuellement
+        function cleanManualErrorMessages(element) {
+            // Identifier le conteneur parent
+            const container = element.closest('.icon-input') || element.parentNode;
+            
+            if (container) {
+                // Rechercher les nœuds de texte contenant des messages d'erreur
+                const walker = document.createTreeWalker(
+                    container,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                const textNodesToRemove = [];
+                while (walker.nextNode()) {
+                    const node = walker.currentNode;
+                    if (node.textContent.trim() === 'Ce champ est obligatoire' || 
+                        node.textContent.trim().includes('obligatoire') ||
+                        node.textContent.trim().includes('Veuillez entrer')) {
+                        textNodesToRemove.push(node);
+                    }
+                }
+                
+                // Supprimer les nœuds de texte identifiés
+                textNodesToRemove.forEach(node => {
+                    node.parentNode.removeChild(node);
+                });
+            }
+        }
+
+        // Ajouter des événements pour nettoyer les messages au remplissage
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    cleanManualErrorMessages(this);
+                });
+                
+                input.addEventListener('change', function() {
+                    cleanManualErrorMessages(this);
+                });
+                
+                input.addEventListener('focus', function() {
+                    cleanManualErrorMessages(this);
+                });
+            });
+        });
+
+        // Fonction pour faire basculer le mode sombre
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeSwitch = document.getElementById('theme-switch');
+            
+            // Vérifier le mode sombre au chargement
+            checkDarkMode();
+            
+            // Ajouter l'événement de changement de thème
+            if (themeSwitch) {
+                themeSwitch.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-theme');
+                    
+                    // Enregistrer la préférence dans localStorage
+                    if (document.body.classList.contains('dark-theme')) {
+                        localStorage.setItem('darkmode', 'active');
+                    } else {
+                        localStorage.setItem('darkmode', 'inactive');
+                    }
+                });
+            }
+            
+            // Fonction pour vérifier et appliquer le mode sombre
+            function checkDarkMode() {
+                // Vérifier si le mode sombre est déjà activé
+                if (localStorage.getItem('darkmode') === 'active' || 
+                    (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && 
+                     localStorage.getItem('darkmode') !== 'inactive')) {
+                    document.body.classList.add('dark-theme');
+                }
+            }
+        });
+
+        // Fonction pour gérer la déconnexion
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', handleLogout);
+            }
+        });
     </script>
 
     <!-- Footer with Faculty Logo -->

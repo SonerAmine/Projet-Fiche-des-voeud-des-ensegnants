@@ -275,6 +275,9 @@ function initFormValidation() {
     
     // Validation function
     function validateInput(input) {
+        // Identifier le conteneur parent pour rechercher les messages d'erreur
+        const container = input.closest('.icon-input') || input.parentNode;
+        
         if (input.hasAttribute('required') && !input.value) {
             setInvalid(input, 'Ce champ est obligatoire');
             return false;
@@ -297,12 +300,36 @@ function initFormValidation() {
         }
         
         setValid(input);
+        
+        // Nettoyer tous les messages d'erreur manuels qui pourraient avoir été ajoutés à côté du champ
+        if (container) {
+            // Rechercher les textes d'erreur qui pourraient avoir été ajoutés directement (sans classe spécifique)
+            Array.from(container.childNodes).forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() === 'Ce champ est obligatoire') {
+                    container.removeChild(node);
+                }
+            });
+            
+            // Rechercher les éléments frères qui contiennent un message d'erreur
+            const siblings = Array.from(container.children);
+            siblings.forEach(sibling => {
+                if (sibling !== input && 
+                    sibling.textContent && 
+                    sibling.textContent.includes('Ce champ est obligatoire')) {
+                    sibling.remove();
+                }
+            });
+        }
+        
         return true;
     }
     
     function setInvalid(input, message) {
         input.classList.add('is-invalid');
         input.classList.remove('is-valid');
+        
+        // Nettoyer d'abord les messages d'erreur existants
+        cleanErrorMessages(input);
         
         // Find or create feedback element
         let feedback = input.nextElementSibling;
@@ -323,6 +350,47 @@ function initFormValidation() {
     function setValid(input) {
         input.classList.remove('is-invalid');
         input.classList.add('is-valid');
+        
+        // Nettoyer tous les messages d'erreur
+        cleanErrorMessages(input);
+    }
+    
+    // Fonction pour nettoyer tous les types de messages d'erreur
+    function cleanErrorMessages(input) {
+        // Supprimer le message d'erreur standard s'il existe
+        const feedback = input.nextElementSibling;
+        if (feedback && feedback.classList.contains('invalid-feedback')) {
+            feedback.remove();
+        }
+        
+        // Rechercher également les messages d'erreur qui pourraient être ailleurs dans le conteneur
+        const parentContainer = input.closest('.icon-input') || input.parentNode;
+        if (parentContainer) {
+            // Supprimer les .invalid-feedback
+            const errorMessages = parentContainer.querySelectorAll('.invalid-feedback');
+            errorMessages.forEach(errorMsg => {
+                errorMsg.remove();
+            });
+            
+            // Supprimer tout élément avec une classe error
+            const errorElements = parentContainer.querySelectorAll('.error');
+            errorElements.forEach(errorElem => {
+                errorElem.remove();
+            });
+            
+            // Supprimer tout texte "Ce champ est obligatoire" ou tout autre texte d'erreur
+            const allElementsInContainer = parentContainer.childNodes;
+            Array.from(allElementsInContainer).forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim()) {
+                    const errorText = node.textContent.trim();
+                    if (errorText === 'Ce champ est obligatoire' || 
+                        errorText.includes('obligatoire') ||
+                        errorText.includes('valide')) {
+                        parentContainer.removeChild(node);
+                    }
+                }
+            });
+        }
     }
     
     // Direct function to display success message - guaranteed to work

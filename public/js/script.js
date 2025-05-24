@@ -822,11 +822,100 @@ async function chargerDepartements() {
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         await initializeApp();
+        
+        // Ajouter des gestionnaires d'événements pour les champs de formulaire
+        setupFormFieldsListeners();
     } catch (error) {
         console.error('Erreur lors de l\'initialisation de l\'application:', error);
         showAlert('Une erreur est survenue lors de l\'initialisation de l\'application.', 'danger');
     }
 });
+
+// Fonction pour configurer les écouteurs d'événements sur les champs de formulaire
+function setupFormFieldsListeners() {
+    // Sélectionner tous les champs de formulaire
+    const formFields = document.querySelectorAll('input, select, textarea');
+    
+    formFields.forEach(field => {
+        // Ajouter un écouteur d'événement pour l'entrée de données
+        field.addEventListener('input', function() {
+            handleFieldChange(this);
+        });
+        
+        // Ajouter un écouteur d'événement pour le changement de valeur (utile pour les selects)
+        field.addEventListener('change', function() {
+            handleFieldChange(this);
+        });
+    });
+}
+
+// Fonction pour gérer le changement de valeur dans un champ
+function handleFieldChange(field) {
+    // Trouver le conteneur parent du champ (icon-input ou autre)
+    const parentContainer = field.closest('.icon-input') || field.parentNode;
+    
+    // Si le champ est requis et qu'il a maintenant une valeur, supprimer les messages d'erreur
+    if (field.hasAttribute('required') && field.value.trim() !== '') {
+        // Supprimer les messages d'erreur textuels dans le conteneur parent
+        removeErrorMessages(parentContainer);
+        
+        // Ajouter une classe de succès visuelle
+        field.classList.remove('is-invalid');
+        field.classList.add('is-valid');
+    }
+    
+    // Pour les champs email, vérifier également le format
+    if (field.type === 'email' && field.value) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (emailRegex.test(field.value)) {
+            removeErrorMessages(parentContainer);
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+        }
+    }
+    
+    // Pour les champs avec pattern (comme téléphone), vérifier la correspondance
+    if (field.hasAttribute('pattern') && field.value) {
+        const pattern = new RegExp(field.getAttribute('pattern'));
+        if (pattern.test(field.value)) {
+            removeErrorMessages(parentContainer);
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+        }
+    }
+}
+
+// Fonction pour supprimer les messages d'erreur
+function removeErrorMessages(container) {
+    if (!container) return;
+    
+    // Supprimer les éléments avec classe d'erreur
+    const errorElements = container.querySelectorAll('.invalid-feedback, .error-message, .text-danger');
+    errorElements.forEach(el => el.remove());
+    
+    // Supprimer les textes d'erreur directs
+    const childNodes = Array.from(container.childNodes);
+    childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent.trim();
+            if (text === 'Ce champ est obligatoire' || 
+                text.includes('obligatoire') || 
+                text.includes('valid')) {
+                container.removeChild(node);
+            }
+        }
+    });
+    
+    // Vérifier les nœuds de texte immédiats après le conteneur
+    if (container.nextSibling && container.nextSibling.nodeType === Node.TEXT_NODE) {
+        const text = container.nextSibling.textContent.trim();
+        if (text === 'Ce champ est obligatoire' || 
+            text.includes('obligatoire') || 
+            text.includes('valid')) {
+            container.parentNode.removeChild(container.nextSibling);
+        }
+    }
+}
 
 // Fonction pour afficher le message de blocage
 function showSiteLockedMessage(message) {
